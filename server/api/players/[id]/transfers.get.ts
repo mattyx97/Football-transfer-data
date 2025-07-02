@@ -19,35 +19,6 @@ export default defineZodEventHandler({
         }
       }
 
-      // Funzione per ottenere il logo del club
-      const getClubLogo = (clubName: string): string => {
-        const clubLogos: Record<string, string> = {
-          'Manchester City': 'https://logoeps.com/wp-content/uploads/2013/03/manchester-city-vector-logo.png',
-          'Real Madrid': 'https://logoeps.com/wp-content/uploads/2013/03/real-madrid-vector-logo.png',
-          'Barcelona': 'https://logoeps.com/wp-content/uploads/2013/03/fc-barcelona-vector-logo.png',
-          'FC Barcelona': 'https://logoeps.com/wp-content/uploads/2013/03/fc-barcelona-vector-logo.png',
-          'Chelsea': 'https://logoeps.com/wp-content/uploads/2013/03/chelsea-vector-logo.png',
-          'Arsenal': 'https://logoeps.com/wp-content/uploads/2013/03/arsenal-vector-logo.png',
-          'Liverpool': 'https://logoeps.com/wp-content/uploads/2013/03/liverpool-vector-logo.png',
-          'Manchester United': 'https://logoeps.com/wp-content/uploads/2013/03/manchester-united-vector-logo.png',
-          'Bayern Munich': 'https://logoeps.com/wp-content/uploads/2013/03/bayern-munich-vector-logo.png',
-          'Paris Saint-Germain': 'https://logoeps.com/wp-content/uploads/2013/03/paris-saint-germain-vector-logo.png',
-          'Juventus': 'https://logoeps.com/wp-content/uploads/2013/03/juventus-vector-logo.png',
-          'AC Milan': 'https://logoeps.com/wp-content/uploads/2013/03/ac-milan-vector-logo.png',
-          'Inter Milan': 'https://logoeps.com/wp-content/uploads/2013/03/inter-milan-vector-logo.png',
-          'Atletico Madrid': 'https://logoeps.com/wp-content/uploads/2013/03/atletico-madrid-vector-logo.png',
-          'Tottenham': 'https://logoeps.com/wp-content/uploads/2013/03/tottenham-vector-logo.png',
-          'Borussia Dortmund': 'https://logoeps.com/wp-content/uploads/2013/03/borussia-dortmund-vector-logo.png',
-          'Ajax': 'https://logoeps.com/wp-content/uploads/2013/03/ajax-vector-logo.png',
-          'West Ham': 'https://logoeps.com/wp-content/uploads/2013/03/west-ham-vector-logo.png',
-          'Brighton': 'https://logoeps.com/wp-content/uploads/2013/03/brighton-hove-albion-vector-logo.png',
-          'Benfica': 'https://logoeps.com/wp-content/uploads/2013/03/sl-benfica-vector-logo.png',
-          'Sporting CP': 'https://logoeps.com/wp-content/uploads/2013/03/sporting-cp-vector-logo.png'
-        }
-        
-        return clubLogos[clubName] || '/default-club.png'
-      }
-
       // Formatta i trasferimenti
       const formattedTransfers = transfers.map((transfer) => {
         // Usa principalmente market_value_in_eur che è già in euro
@@ -95,8 +66,8 @@ export default defineZodEventHandler({
           feeRaw: transferValue,
           marketValue: formattedValue,
           marketValueRaw: transfer.market_value_in_eur || 0,
-          fromLogo: getClubLogo(transfer.from_club_name || ''),
-          toLogo: getClubLogo(transfer.to_club_name || '')
+          fromLogo: `https://tmssl.akamaized.net/images/wappen/head/${transfer.from_club_id}.png`,
+          toLogo: `https://tmssl.akamaized.net/images/wappen/head/${transfer.to_club_id}.png`,
         }
       })
 

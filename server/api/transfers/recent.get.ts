@@ -117,7 +117,7 @@ export default defineZodEventHandler({
           toClubId: transfer.to_club_id,
           value: formattedValue,
           date: formattedDate,
-          playerPhoto: transfer.player_photo || "/default-player.png",
+          playerPhoto: transfer.player_photo,
           fromLogo: `https://tmssl.akamaized.net/images/wappen/head/${transfer.from_club_id}.png`,
           toLogo: `https://tmssl.akamaized.net/images/wappen/head/${transfer.to_club_id}.png`,
           nationality,

@@ -130,7 +130,7 @@ export default defineZodEventHandler({
           position,
           nationality,
           age: age ? age.toString() : "N/A",
-          photo: player.image_url || "/default-player.png",
+          photo: player.image_url,
           clubLogo: `https://tmssl.akamaized.net/images/wappen/head/${player.current_club_id}.png`,
         }
       })

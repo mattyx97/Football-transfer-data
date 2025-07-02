@@ -130,7 +130,8 @@ onUnmounted(() => {
     <div class="relative z-10">
       <!-- Top Header -->
       <header
-        class="bg-gradient-to-r from-emerald-950/80 via-slate-900/80 to-green-950/80 backdrop-blur-xl border-b border-emerald-500/20 h-20"
+        @click="router.push('/')"
+        class="bg-gradient-to-r cursor-pointer from-emerald-950/80 via-slate-900/80 to-green-950/80 backdrop-blur-xl border-b border-emerald-500/20 h-20"
       >
         <div class="flex items-center justify-between h-full px-6">
           <!-- Logo -->
@@ -152,26 +153,28 @@ onUnmounted(() => {
 
           <!-- Search Bar -->
           <div class="flex-1 max-w-2xl mx-6 relative">
-            <div class="relative">
-              <UInput
-                ref="searchInputRef"
-                v-model="search"
-                placeholder="Cerca giocatori, club, trasferimenti... (AI-powered)"
-                class="w-full pl-12 pr-4 py-3 bg-emerald-950/50 backdrop-blur-sm border border-emerald-500/30 rounded-xl text-white placeholder-emerald-300/50 focus:border-emerald-400/70 focus:ring-emerald-400/30 shadow-lg shadow-emerald-900/20"
-                size="lg"
-                @focus="handleFocus"
-                @blur="handleBlur"
-                autocomplete="off"
+            <UInput
+              ref="searchInputRef"
+              v-model="search"
+              placeholder="Cerca giocatori, club, trasferimenti... (AI-powered)"
+              class="w-full pl-12 pr-20 py-3 bg-emerald-950/50 backdrop-blur-sm border border-emerald-500/30 rounded-xl text-white placeholder-emerald-300/50 focus:border-emerald-400/70 focus:ring-emerald-400/30 shadow-lg shadow-emerald-900/20"
+              size="lg"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              autocomplete="off"
+            >
+              <template #leading>
+                <UIcon name="i-heroicons-magnifying-glass" class="w-5 h-5 text-emerald-400" />
+              </template>
+            </UInput>
+            <!-- Badge ⌘K posizionato all'esterno dell'input -->
+            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <span
+                class="inline-flex items-center px-2 py-1 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-medium"
               >
-                <template #leading>
-                  <UIcon name="i-heroicons-magnifying-glass" class="w-5 h-5 text-emerald-400" />
-                </template>
-              </UInput>
-              <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
-                <UKbd size="sm" class="bg-emerald-500/20 text-emerald-300 border-emerald-400/30">
-                  ⌘K
-                </UKbd>
-              </div>
+                <UKbd size="sm" value="meta" class="bg-emerald-500/20 text-emerald-300" />
+                <UKbd size="sm" value="k" class="bg-emerald-500/20 text-emerald-300"/>
+              </span>
             </div>
           </div>
 
@@ -265,7 +268,7 @@ onUnmounted(() => {
                     @mousedown.prevent="handleSelect(player, 'player')"
                   >
                     <img
-                      :src="player.image_url || '/default-player.png'"
+                      :src="player.image_url"
                       class="w-6 h-6 rounded-full mr-2 border border-emerald-400/30"
                     />
                     <div class="flex-1 min-w-0">

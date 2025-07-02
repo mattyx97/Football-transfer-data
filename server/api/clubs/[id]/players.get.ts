@@ -135,7 +135,7 @@ export default defineZodEventHandler({
           contractExpiration: player.contract_expiration_date
             ? player.contract_expiration_date.toISOString().split("T")[0]
             : null,
-          photo: player.image_url || "/default-player.png",
+          photo: player.image_url,
         }
       })
 
