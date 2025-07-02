@@ -1,7 +1,7 @@
 ---
 description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 # Clean Code API Rule for /server/api
 
@@ -79,6 +79,7 @@ export default defineZodEventHandler({
 ## References
 - [Nuxt Server Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/server)
 - [Nuxt API Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/api)
+
 
 
 
