@@ -1,17 +1,18 @@
 import { PlayerModel } from "../../lib/db/schema"
 import { z } from "zod"
 
+const PAGE_SIZE = 20
+
 export default defineZodEventHandler({
   input: {
     query: z.object({
       page: z.coerce.number().optional().default(1),
-      pageSize: z.coerce.number().optional().default(20),
     }),
   },
   async handler(event, { input: { query } }) {
     const [total, data] = await Promise.all([
       PlayerModel.countDocuments(),
-      PlayerModel.find().skip((query.page - 1) * query.pageSize).limit(query.pageSize),
+      PlayerModel.find().skip((query.page - 1) * PAGE_SIZE).limit(PAGE_SIZE),
     ])
 
     return {
@@ -19,7 +20,7 @@ export default defineZodEventHandler({
       pagination: {
         total,
         page: query.page,
-        pageSize: query.pageSize,
+        pageSize: PAGE_SIZE,
       },
     }
   },

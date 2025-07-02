@@ -24,25 +24,26 @@ This rule defines the conventions and best practices for creating clean, maintai
 import { Model } from '../../lib/db/schema'
 import { z } from 'zod'
 
+const PAGE_SIZE = 20
+
 export default defineZodEventHandler({
   input: {
     query: z.object({
       page: z.coerce.number().optional().default(1),
-      pageSize: z.coerce.number().optional().default(20),
     }),
   },
   async handler(event, { input: { query } }) {
-    const skip = (query.page - 1) * query.pageSize
+    const skip = (query.page - 1) * PAGE_SIZE
     const [total, data] = await Promise.all([
       Model.countDocuments(),
-      Model.find().skip(skip).limit(query.pageSize),
+      Model.find().skip(skip).limit(PAGE_SIZE),
     ])
     return {
       data,
       pagination: {
         total,
         page: query.page,
-        pageSize: query.pageSize,
+        pageSize: PAGE_SIZE,
       },
     }
   },
@@ -78,6 +79,8 @@ export default defineZodEventHandler({
 ## References
 - [Nuxt Server Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/server)
 - [Nuxt API Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/api)
+
+
 
 
 
