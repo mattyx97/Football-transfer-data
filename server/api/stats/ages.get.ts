@@ -2,9 +2,6 @@ import { PlayerModel } from '../../lib/db/schema'
 import { z } from 'zod'
 
 export default defineZodEventHandler({
-  input: {
-    query: z.object({}).optional()
-  },
   async handler(event, { input }) {
     try {
       // Aggrega i dati per età calcolando l'età dalla data di nascita

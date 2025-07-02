@@ -2,9 +2,6 @@ import { ClubModel, PlayerModel, TransferModel } from '../../lib/db/schema'
 import { z } from 'zod'
 
 export default defineZodEventHandler({
-  input: {
-    query: z.object({}).optional()
-  },
   async handler(event, { input }) {
     try {
       // Esegui le query in parallelo per migliori performance

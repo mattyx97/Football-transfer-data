@@ -115,7 +115,6 @@ export default defineZodEventHandler({
         topLeagues
       }
     } catch (error) {
-      console.error('Errore nel recupero delle top leagues:', error)
       throw createError({
         statusCode: 500,
         statusMessage: 'Errore interno del server'

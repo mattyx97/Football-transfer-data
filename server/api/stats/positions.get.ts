@@ -2,9 +2,6 @@ import { PlayerModel } from '../../lib/db/schema'
 import { z } from 'zod'
 
 export default defineZodEventHandler({
-  input: {
-    query: z.object({}).optional()
-  },
   async handler(event, { input }) {
     try {
       // Aggrega i dati direttamente per posizione
@@ -69,7 +66,6 @@ export default defineZodEventHandler({
         positionTrends
       }
     } catch (error) {
-      console.error('Errore nel recupero dei trend per posizione:', error)
       throw createError({
         statusCode: 500,
         statusMessage: 'Errore interno del server'

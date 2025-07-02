@@ -147,7 +147,6 @@ export default defineZodEventHandler({
         recentTransfers: formattedTransfers
       }
     } catch (error) {
-      console.error('Errore nel recupero dei trasferimenti recenti:', error)
       throw createError({
         statusCode: 500,
         statusMessage: 'Errore interno del server'

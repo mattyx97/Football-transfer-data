@@ -260,7 +260,6 @@ export default defineZodEventHandler({
         ageGroups: orderedAgeGroups
       }
     } catch (error) {
-      console.error('Errore nel recupero delle statistiche di mercato:', error)
       throw createError({
         statusCode: 500,
         statusMessage: 'Errore interno del server'
