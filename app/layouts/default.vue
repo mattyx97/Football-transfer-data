@@ -1,4 +1,100 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// Simple debounce composable
+function useDebounce(fn: (...args: any[]) => void, delay: number) {
+  let timeout: ReturnType<typeof setTimeout> | null = null
+  return (...args: any[]) => {
+    if (timeout) clearTimeout(timeout)
+    timeout = setTimeout(() => fn(...args), delay)
+  }
+}
+
+const search = ref("")
+const showDropdown = ref(false)
+const loading = ref(false)
+const results = ref<{ players: any[]; clubs: any[] }>({ players: [], clubs: [] })
+const router = useRouter()
+const searchInputRef = ref()
+const dropdownPosition = ref({ top: 0, left: 0, width: 0 })
+
+const updateDropdownPosition = () => {
+  if (searchInputRef.value?.$el) {
+    const rect = searchInputRef.value.$el.getBoundingClientRect()
+    dropdownPosition.value = {
+      top: rect.bottom + 8,
+      left: rect.left,
+      width: rect.width,
+    }
+  }
+}
+
+const doSearch = useDebounce(async (q: string) => {
+  if (!q || q.length < 2) {
+    results.value = { players: [], clubs: [] }
+    loading.value = false
+    showDropdown.value = false
+    return
+  }
+  loading.value = true
+  try {
+    const [players, clubs] = await Promise.all([
+      $fetch("/api/players", { query: { search: q, pageSize: 5 } }),
+      $fetch("/api/clubs", { query: { search: q, pageSize: 5 } }),
+    ])
+    results.value = {
+      players: players?.data || [],
+      clubs: clubs?.data || [],
+    }
+    showDropdown.value = true
+    nextTick(() => updateDropdownPosition())
+  } finally {
+    loading.value = false
+  }
+}, 300)
+
+watch(search, (q) => {
+  if (!q || q.length < 2) {
+    showDropdown.value = false
+    return
+  }
+  doSearch(q)
+})
+
+const handleSelect = (item: any, type: "player" | "club") => {
+  showDropdown.value = false
+  search.value = ""
+  if (type === "player") {
+    router.push(`/players/${item.player_id}`)
+  } else {
+    router.push(`/clubs/${item.club_id}`)
+  }
+}
+
+const handleBlur = () => {
+  setTimeout(() => (showDropdown.value = false), 200)
+}
+
+const handleFocus = () => {
+  if (
+    search.value &&
+    search.value.length > 1 &&
+    (results.value.players.length || results.value.clubs.length)
+  ) {
+    showDropdown.value = true
+    nextTick(() => updateDropdownPosition())
+  }
+}
+
+// Update position on scroll/resize
+onMounted(() => {
+  window.addEventListener("scroll", updateDropdownPosition)
+  window.addEventListener("resize", updateDropdownPosition)
+})
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", updateDropdownPosition)
+  window.removeEventListener("resize", updateDropdownPosition)
+})
+</script>
 
 <template>
   <div class="min-h-screen bg-gradient-to-br from-emerald-950 via-slate-900 to-green-950">
@@ -55,12 +151,17 @@
           </div>
 
           <!-- Search Bar -->
-          <div class="flex-1 max-w-2xl mx-6">
+          <div class="flex-1 max-w-2xl mx-6 relative">
             <div class="relative">
               <UInput
+                ref="searchInputRef"
+                v-model="search"
                 placeholder="Cerca giocatori, club, trasferimenti... (AI-powered)"
                 class="w-full pl-12 pr-4 py-3 bg-emerald-950/50 backdrop-blur-sm border border-emerald-500/30 rounded-xl text-white placeholder-emerald-300/50 focus:border-emerald-400/70 focus:ring-emerald-400/30 shadow-lg shadow-emerald-900/20"
                 size="lg"
+                @focus="handleFocus"
+                @blur="handleBlur"
+                autocomplete="off"
               >
                 <template #leading>
                   <UIcon name="i-heroicons-magnifying-glass" class="w-5 h-5 text-emerald-400" />
@@ -122,6 +223,113 @@
         <slot />
       </main>
     </div>
+
+    <!-- Search Dropdown via Teleport -->
+    <Teleport to="body">
+      <transition name="fade">
+        <div
+          v-if="showDropdown && (results.players.length || results.clubs.length || loading)"
+          class="fixed z-[9999]"
+          :style="{
+            top: dropdownPosition.top + 'px',
+            left: dropdownPosition.left + 'px',
+            width: dropdownPosition.width + 'px',
+          }"
+        >
+          <div
+            class="w-full bg-emerald-950/95 border border-emerald-500/30 rounded-xl shadow-xl backdrop-blur-xl max-h-96 overflow-y-auto"
+          >
+            <div v-if="loading" class="p-4 text-emerald-300 flex items-center space-x-2">
+              <UIcon name="i-heroicons-arrow-path" class="animate-spin w-5 h-5" />
+              <span>Caricamento...</span>
+            </div>
+
+            <!-- Two Column Layout -->
+            <div
+              v-if="!loading && (results.players.length || results.clubs.length)"
+              class="grid grid-cols-2 gap-0"
+            >
+              <!-- Players Column (Left) -->
+              <div class="border-r border-emerald-500/20">
+                <div
+                  v-if="results.players.length"
+                  class="px-4 pt-3 pb-1 text-xs text-emerald-400 font-semibold"
+                >
+                  Giocatori
+                </div>
+                <ul v-if="results.players.length">
+                  <li
+                    v-for="player in results.players"
+                    :key="player.player_id"
+                    class="flex items-center px-4 py-2 hover:bg-emerald-800/60 cursor-pointer transition"
+                    @mousedown.prevent="handleSelect(player, 'player')"
+                  >
+                    <img
+                      :src="player.image_url || '/default-player.png'"
+                      class="w-6 h-6 rounded-full mr-2 border border-emerald-400/30"
+                    />
+                    <div class="flex-1 min-w-0">
+                      <div class="text-white font-medium text-sm truncate">{{ player.name }}</div>
+                      <div class="text-emerald-300 text-xs truncate">
+                        {{ player.current_club_name }}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <div
+                  v-if="!results.players.length"
+                  class="px-4 py-6 text-emerald-300/50 text-center text-sm"
+                >
+                  Nessun giocatore
+                </div>
+              </div>
+
+              <!-- Clubs Column (Right) -->
+              <div>
+                <div
+                  v-if="results.clubs.length"
+                  class="px-4 pt-3 pb-1 text-xs text-lime-400 font-semibold"
+                >
+                  Club
+                </div>
+                <ul v-if="results.clubs.length">
+                  <li
+                    v-for="club in results.clubs"
+                    :key="club.club_id"
+                    class="flex items-center px-4 py-2 hover:bg-lime-800/60 cursor-pointer transition"
+                    @mousedown.prevent="handleSelect(club, 'club')"
+                  >
+                    <img
+                      :src="`https://tmssl.akamaized.net/images/wappen/head/${club.club_id}.png`"
+                      class="w-6 h-6 rounded-full mr-2 border border-lime-400/30"
+                    />
+                    <div class="flex-1 min-w-0">
+                      <div class="text-white font-medium text-sm truncate">{{ club.name }}</div>
+                      <div class="text-lime-300 text-xs truncate">
+                        {{ club.domestic_competition_id }}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <div
+                  v-if="!results.clubs.length"
+                  class="px-4 py-6 text-lime-300/50 text-center text-sm"
+                >
+                  Nessun club
+                </div>
+              </div>
+            </div>
+
+            <div
+              v-if="!loading && !results.players.length && !results.clubs.length"
+              class="p-4 text-emerald-300 text-center"
+            >
+              Nessun risultato trovato.
+            </div>
+          </div>
+        </div>
+      </transition>
+    </Teleport>
   </div>
 </template>
 
@@ -158,5 +366,14 @@
   background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
     linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 40px 40px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

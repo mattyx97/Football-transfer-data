@@ -37,7 +37,7 @@
         <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
           <div class="flex items-center space-x-6">
             <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-              <span class="text-3xl font-bold">{{ clubData?.club?.name?.charAt(0) || 'C' }}</span>
+              <img :src="clubData?.imageUrl" alt="Club Logo" class="w-full h-full object-contain" />
             </div>
             <div class="flex-1">
               <h1 class="text-4xl font-bold mb-2">{{ clubData.club.name }}</h1>

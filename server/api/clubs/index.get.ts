@@ -26,7 +26,7 @@ export default defineZodEventHandler({
       ClubModel.find(filter).skip(skip).limit(PAGE_SIZE),
     ])
     return {
-      data,
+      data: data,
       pagination: {
         total,
         page,

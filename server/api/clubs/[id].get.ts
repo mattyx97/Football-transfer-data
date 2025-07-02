@@ -13,6 +13,8 @@ export default defineZodEventHandler({
     if (!club) {
       return createBadRequestError()
     }
-    return club
+    return {
+      club,
+    }
   },
 })
