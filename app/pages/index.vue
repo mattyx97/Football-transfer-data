@@ -1,165 +1,56 @@
 <script setup lang="ts">
 const nuxtApp = useNuxtApp()
 
-// Dati mock per la demo con foto e loghi
-const stats = [
-  {
-    title: 'Giocatori Analizzati',
-    value: '15,847',
-    change: '+12%',
-    icon: 'i-heroicons-user-group',
-    color: 'text-emerald-400',
-    bgColor: 'bg-emerald-500/20',
-    borderColor: 'border-emerald-500/30',
-    details: 'Analisi completa su 150+ campionati'
-  },
-  {
-    title: 'Club Monitorati',
-    value: '2,456',
-    change: '+8%',
-    icon: 'i-heroicons-building-office',
-    color: 'text-amber-400',
-    bgColor: 'bg-amber-500/20',
-    borderColor: 'border-amber-500/30',
-    details: 'Copertura globale in tempo reale'
-  },
-  {
-    title: 'Trasferimenti Tracciati',
-    value: '8,234',
-    change: '+24%',
-    icon: 'i-heroicons-arrow-path',
-    color: 'text-lime-400',
-    bgColor: 'bg-lime-500/20',
-    borderColor: 'border-lime-500/30',
-    details: 'Ultimi 5 anni di mercato'
-  },
-  {
-    title: 'Valore Totale Analizzato',
-    value: '€2.4B',
-    change: '+15%',
-    icon: 'i-heroicons-currency-euro',
-    color: 'text-yellow-400',
-    bgColor: 'bg-yellow-500/20',
-    borderColor: 'border-yellow-500/30',
-    details: 'Valutazioni basate su AI'
-  }
-]
+// Fetch dati reali dalle API
+const [statsData, marketData, topPlayersData, transfersData] = await Promise.all([
+  $fetch('/api/stats'),
+  $fetch('/api/stats/market-trends'),
+  $fetch('/api/players/top-by-value'),
+  $fetch('/api/transfers/recent')
+])
 
-const topPlayers = [
-  { 
-    name: 'Erling Haaland', 
-    club: 'Manchester City', 
-    value: '€180M', 
-    change: '+15%', 
-    position: 'ST',
-    photo: 'https://img.a.transfermarkt.technology/portrait/big/418560-1667830379.jpg?lm=1',
-    clubLogo: 'https://logoeps.com/wp-content/uploads/2013/03/manchester-city-vector-logo.png',
-    nationality: '🇳🇴',
-    age: '24'
-  },
-  { 
-    name: 'Kylian Mbappé', 
-    club: 'Real Madrid', 
-    value: '€160M', 
-    change: '+8%', 
-    position: 'LW',
-    photo: 'https://img.a.transfermarkt.technology/portrait/big/342229-1682683695.jpg?lm=1',
-    clubLogo: 'https://logoeps.com/wp-content/uploads/2013/03/real-madrid-vector-logo.png',
-    nationality: '🇫🇷',
-    age: '25'
-  },
-  { 
-    name: 'Jude Bellingham', 
-    club: 'Real Madrid', 
-    value: '€150M', 
-    change: '+25%', 
-    position: 'CM',
-    photo: 'https://img.a.transfermarkt.technology/portrait/big/581678-1693210087.jpg?lm=1',
-    clubLogo: 'https://logoeps.com/wp-content/uploads/2013/03/real-madrid-vector-logo.png',
-    nationality: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-    age: '21'
-  },
-  { 
-    name: 'Pedri', 
-    club: 'Barcelona', 
-    value: '€120M', 
-    change: '+12%', 
-    position: 'CM',
-    photo: 'https://img.a.transfermarkt.technology/portrait/big/757814-1661164482.jpg?lm=1',
-    clubLogo: 'https://logoeps.com/wp-content/uploads/2013/03/fc-barcelona-vector-logo.png',
-    nationality: '🇪🇸',
-    age: '22'
-  },
-  { 
-    name: 'Vinícius Jr.', 
-    club: 'Real Madrid', 
-    value: '€140M', 
-    change: '+18%', 
-    position: 'LW',
-    photo: 'https://img.a.transfermarkt.technology/portrait/big/371998-1659358608.jpg?lm=1',
-    clubLogo: 'https://logoeps.com/wp-content/uploads/2013/03/real-madrid-vector-logo.png',
-    nationality: '🇧🇷',
-    age: '24'
-  }
-]
+// Statistiche principali dalla API
+const stats = statsData?.stats || []
 
-const recentTransfers = [
-  { 
-    player: 'Declan Rice', 
-    from: 'West Ham', 
-    to: 'Arsenal', 
-    value: '€116M', 
-    date: '2024-01-15',
-    playerPhoto: 'https://img.a.transfermarkt.technology/portrait/big/93726-1664804578.jpg?lm=1',
-    fromLogo: 'https://logoeps.com/wp-content/uploads/2013/03/west-ham-vector-logo.png',
-    toLogo: 'https://logoeps.com/wp-content/uploads/2013/03/arsenal-vector-logo.png',
-    nationality: '🏴󠁧󠁢󠁥󠁮󠁧󠁿'
-  },
-  { 
-    player: 'Enzo Fernández', 
-    from: 'Benfica', 
-    to: 'Chelsea', 
-    value: '€121M', 
-    date: '2024-01-10',
-    playerPhoto: 'https://img.a.transfermarkt.technology/portrait/big/648195-1661776369.jpg?lm=1',
-    fromLogo: 'https://logoeps.com/wp-content/uploads/2013/03/sl-benfica-vector-logo.png',
-    toLogo: 'https://logoeps.com/wp-content/uploads/2013/03/chelsea-vector-logo.png',
-    nationality: '🇦🇷'
-  },
-  { 
-    player: 'Moisés Caicedo', 
-    from: 'Brighton', 
-    to: 'Chelsea', 
-    value: '€133M', 
-    date: '2024-01-08',
-    playerPhoto: 'https://img.a.transfermarkt.technology/portrait/big/571697-1661164447.jpg?lm=1',
-    fromLogo: 'https://logoeps.com/wp-content/uploads/2013/03/brighton-hove-albion-vector-logo.png',
-    toLogo: 'https://logoeps.com/wp-content/uploads/2013/03/chelsea-vector-logo.png',
-    nationality: '🇪🇨'
-  }
-]
+// Dati reali dalle API
+const topPlayers = topPlayersData?.topPlayers || []
+const recentTransfers = transfersData?.recentTransfers || []
 
-// Aggiungo nuovi dati per le statistiche di mercato
+// Funzione per tradurre i ruoli in italiano
+const translatePosition = (position: string): string => {
+  const translations: Record<string, string> = {
+    // Ruoli specifici
+    'Centre-Forward': 'Centravanti',
+    'Central Midfield': 'Centrocampo Centrale',
+    'Right Winger': 'Ala Destra',
+    'Left Winger': 'Ala Sinistra',
+    'Left-Back': 'Terzino Sinistro',
+    'Right-Back': 'Terzino Destro',
+    'Centre-Back': 'Difensore Centrale',
+    'Goalkeeper': 'Portiere',
+    'Defensive Midfield': 'Mediano',
+    'Attacking Midfield': 'Trequartista',
+    'Left Midfield': 'Centrocampo Sinistro',
+    'Right Midfield': 'Centrocampo Destro',
+    'Secondary Striker': 'Seconda Punta',
+    
+    // Ruoli raggruppati
+    'Defender': 'Difensore',
+    'Midfield': 'Centrocampo',
+    'Attack': 'Attacco'
+  }
+  
+  return translations[position] || position
+}
+
+// Dati di mercato dalla API con traduzioni
 const marketTrends = {
-  topLeagues: [
-    { name: 'Premier League', value: '€1.2B', change: '+18%', color: 'from-purple-500 to-indigo-500' },
-    { name: 'La Liga', value: '€750M', change: '+12%', color: 'from-orange-500 to-red-500' },
-    { name: 'Serie A', value: '€680M', change: '+15%', color: 'from-blue-500 to-cyan-500' },
-    { name: 'Bundesliga', value: '€620M', change: '+10%', color: 'from-emerald-500 to-teal-500' },
-    { name: 'Ligue 1', value: '€450M', change: '+8%', color: 'from-pink-500 to-rose-500' }
-  ],
-  positionTrends: [
-    { position: 'Attaccanti', percentage: 35, value: '€850M', trend: 'up' },
-    { position: 'Centrocampisti', percentage: 30, value: '€720M', trend: 'up' },
-    { position: 'Difensori', percentage: 25, value: '€580M', trend: 'stable' },
-    { position: 'Portieri', percentage: 10, value: '€250M', trend: 'down' }
-  ],
-  ageGroups: [
-    { range: '18-21', percentage: 25, value: '€580M', trend: 'up' },
-    { range: '22-25', percentage: 35, value: '€820M', trend: 'up' },
-    { range: '26-29', percentage: 28, value: '€650M', trend: 'stable' },
-    { range: '30+', percentage: 12, value: '€350M', trend: 'down' }
-  ]
+  topLeagues: marketData?.topLeagues || [],
+  positionTrends: (marketData?.positionTrends || []).map((trend: any) => ({
+    ...trend,
+    position: translatePosition(trend.position)
+  })),
+  ageGroups: marketData?.ageGroups || []
 }
 
 // Aggiungo dati per l'analisi AI avanzata

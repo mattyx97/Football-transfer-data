@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "infra-dev-up": "docker compose -f docker-compose.yml up -d",
-    "db:seed-dev": "curl -X GET http://127.0.0.1:3000/_nitro/tasks/_seed"
+    "db:seed-dev": "curl -X GET http://localhost:3000/_nitro/tasks/_seed"
   },
   "dependencies": {
     "@nuxt/ui": "^3.2.0",
