@@ -1,0 +1,68 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Nuxt Cursor Rule
+
+## Overview
+Nuxt is an open source framework for building performant, production-grade full-stack web apps and websites with Vue. It provides an intuitive developer experience, file-based routing, server-side rendering, and a modular architecture.
+
+- Official documentation: [Nuxt Docs](mdc:https:/nuxt.com)
+- Full documentation: [Nuxt Docs Full](mdc:https:/nuxt.com/llms-full.txt)
+
+## Getting Started
+- [Introduction](mdc:https:/nuxt.com/docs/getting-started/introduction)
+- [Installation](mdc:https:/nuxt.com/docs/getting-started/installation)
+- [Configuration](mdc:https:/nuxt.com/docs/getting-started/configuration)
+- [Views](mdc:https:/nuxt.com/docs/getting-started/views)
+- [Assets](mdc:https:/nuxt.com/docs/getting-started/assets)
+- [Styling](mdc:https:/nuxt.com/docs/getting-started/styling)
+- [Routing](mdc:https:/nuxt.com/docs/getting-started/routing)
+- [SEO and Meta](mdc:https:/nuxt.com/docs/getting-started/seo-meta)
+- [Transitions](mdc:https:/nuxt.com/docs/getting-started/transitions)
+- [Data Fetching](mdc:https:/nuxt.com/docs/getting-started/data-fetching)
+- [State Management](mdc:https:/nuxt.com/docs/getting-started/state-management)
+- [Error Handling](mdc:https:/nuxt.com/docs/getting-started/error-handling)
+- [Server](mdc:https:/nuxt.com/docs/getting-started/server)
+- [Layers](mdc:https:/nuxt.com/docs/getting-started/layers)
+- [Prerendering](mdc:https:/nuxt.com/docs/getting-started/prerendering)
+- [Deployment](mdc:https:/nuxt.com/docs/getting-started/deployment)
+- [Testing](mdc:https:/nuxt.com/docs/getting-started/testing)
+- [Upgrade Guide](mdc:https:/nuxt.com/docs/getting-started/upgrade)
+
+## Directory Structure
+- [Directory Structure Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/overview)
+- Key directories:
+  - [app.vue](mdc:app/app.vue): Main app entry point
+  - [nuxt.config.ts](mdc:nuxt.config.ts): Project configuration
+  - [pages/](mdc:app/pages): File-based routing
+  - [layouts/](mdc:app/layouts): Layout templates
+  - [assets/](mdc:app/assets): Static assets
+  - [components/]: Vue components (auto-imported)
+  - [composables/]: Vue composables (auto-imported)
+  - [server/](mdc:server): API and server handlers
+  - [public/]: Static files served at root
+
+## Core Concepts
+- [Auto-imports](mdc:https:/nuxt.com/docs/guide/concepts/auto-imports): Components, composables, and helpers are auto-imported.
+- [Nuxt Lifecycle](mdc:https:/nuxt.com/docs/guide/concepts/nuxt-lifecycle): Understand SSR and client-side rendering.
+- [Rendering Modes](mdc:https:/nuxt.com/docs/guide/concepts/rendering): SSR, SSG, and hybrid rendering.
+- [Modules](mdc:https:/nuxt.com/docs/guide/concepts/modules): Extend Nuxt with modules.
+- [TypeScript](mdc:https:/nuxt.com/docs/guide/concepts/typescript): Full type safety and auto-completion.
+- [Server Engine (Nitro)](mdc:https:/nuxt.com/docs/guide/concepts/server-engine): Unified server engine for API, SSR, and static generation.
+
+## Best Practices
+- Use file-based routing in [pages/](mdc:app/pages).
+- Organize layouts in [layouts/](mdc:app/layouts).
+- Place global styles in [assets/css/tailwind.css](mdc:app/assets/css/tailwind.css) and configure in [nuxt.config.ts](mdc:nuxt.config.ts).
+- Use environment variables for secrets and configuration.
+- Prefer composables for business logic and state management.
+- Use TypeScript for maintainability and type safety.
+- Follow modular design and keep code organized by feature or domain.
+
+## References
+- [Nuxt Documentation](mdc:https:/nuxt.com)
+- [Nuxt Docs Full](mdc:https:/nuxt.com/llms-full.txt)
+- [Nuxt Blog](mdc:https:/nuxt.com/blog)
+

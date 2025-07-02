@@ -1,0 +1,76 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Nuxt UI Cursor Rule
+
+## Overview
+Nuxt UI is a comprehensive, Nuxt-integrated UI library providing a rich set of fully-styled, accessible, and highly customizable components for building modern web applications.
+
+- Official documentation: [Nuxt UI Docs](mdc:https:/ui.nuxt.com)
+- Full documentation: [Nuxt UI Full Documentation](mdc:https:/ui.nuxt.com/llms-full.txt)
+
+## Getting Started
+- [Introduction](mdc:https:/ui.nuxt.com/getting-started)
+- [Installation for Nuxt](mdc:https:/ui.nuxt.com/getting-started/installation/nuxt)
+- [Migration Guide](mdc:https:/ui.nuxt.com/getting-started/migration)
+- [Theme Customization](mdc:https:/ui.nuxt.com/getting-started/theme)
+- [Icons](mdc:https:/ui.nuxt.com/getting-started/icons/nuxt)
+- [Fonts](mdc:https:/ui.nuxt.com/getting-started/fonts)
+- [Color Mode](mdc:https:/ui.nuxt.com/getting-started/color-mode/nuxt)
+- [i18n Guide](mdc:https:/ui.nuxt.com/getting-started/i18n/nuxt)
+- [Contribution Guide](mdc:https:/ui.nuxt.com/getting-started/contribution)
+
+## Component Usage
+- Use Nuxt UI components for building responsive, accessible, and beautiful interfaces quickly.
+- All components are type-safe and support auto-completion in TypeScript projects.
+- Components are styled by default but can be customized using Tailwind CSS classes and the `ui` prop.
+- Example usage:
+  ```vue
+  <UButton label="Click me" color="primary" />
+  ```
+- For a full list of components and their props, see the [Nuxt UI Components page](mdc:https:/ui.nuxt.com/components).
+
+## Customization
+- Nuxt UI leverages Tailwind Variants for powerful and maintainable component styling.
+- Customize global design tokens and color aliases in [app.config.ts](mdc:app/app.config.ts) using `defineAppConfig`:
+  ```ts
+  export default defineAppConfig({
+    ui: {
+      colors: {
+        primary: 'indigo',
+        secondary: 'pink',
+        success: 'green',
+        info: 'blue',
+        warning: 'orange',
+        error: 'red',
+        neutral: 'zinc',
+      }
+    }
+  })
+  ```
+- Adjust global style variables in your CSS for border radius, container width, and color tokens.
+- Per-component customization is available via the `ui` prop and `class` prop for root element overrides.
+
+## Accessibility & Internationalization
+- All Nuxt UI components are accessible by default, leveraging Reka UI.
+- Supports internationalization (i18n) and multi-directional layouts (LTR/RTL).
+
+## Integration
+- Nuxt UI is registered as a module in [nuxt.config.ts](mdc:nuxt.config.ts) under the `modules` array.
+- Works seamlessly with Tailwind CSS v4 and @nuxt/fonts for font customization.
+- Supports dark mode and color mode integration via @nuxtjs/color-mode.
+
+## Best Practices
+- Prefer Nuxt UI components for consistency and rapid development.
+- Use design tokens and AppConfig for global theming.
+- Refer to the [Nuxt UI documentation](mdc:https:/ui.nuxt.com) for advanced usage, theming, and troubleshooting.
+
+## References
+- [Nuxt UI Documentation](mdc:https:/ui.nuxt.com)
+- [Nuxt UI Full Documentation](mdc:https:/ui.nuxt.com/llms-full.txt)
+- [Nuxt.com](mdc:https:/nuxt.com) for Nuxt framework documentation
+- More here: https://ui.nuxt.com/llms.txt
+
+

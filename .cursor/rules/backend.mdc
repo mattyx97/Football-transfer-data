@@ -1,0 +1,34 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Backend Cursor Rule
+
+## Overview
+The `/server` directory contains all backend logic, including API endpoints, plugins, database models, utilities, and background tasks. This structure supports modular, maintainable, and scalable backend development.
+
+## Directory Structure
+- [api/](mdc:server/api): API route handlers and endpoints. Organize by resource or feature.
+- [plugins/](mdc:server/plugins): Nuxt/Nitro plugins for backend integration (e.g., database connection, middleware).
+- [lib/](mdc:server/lib): Core backend libraries, such as database schemas, business logic, and shared modules.
+  - [lib/db/](mdc:server/lib/db): Mongoose schemas and database models.
+- [utils/](mdc:server/utils): Utility functions, error handlers, and reusable helpers for backend logic.
+- [tasks/](mdc:server/tasks): Background jobs, cron tasks, and data seeding scripts.
+- [tsconfig.json](mdc:server/tsconfig.json): TypeScript configuration for backend code.
+
+## Best Practices
+- Organize code by feature or domain within each subfolder for clarity and maintainability.
+- Keep business logic in `lib/` and use `api/` only for request/response handling.
+- Use `plugins/` for cross-cutting concerns (e.g., database, logging, authentication).
+- Place reusable helpers in `utils/` and avoid duplication.
+- Write background jobs and scripts in `tasks/` and keep them isolated from request/response logic.
+- Use TypeScript for type safety and maintainability.
+- Follow modular design and keep code organized by responsibility.
+
+## References
+- [Nuxt Server Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/server)
+- [API Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/api)
+- [Plugins Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/plugins)
+- [Utils Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/utils)
+

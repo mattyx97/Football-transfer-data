@@ -7,13 +7,18 @@
     "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "infra-dev-up": "docker compose -f docker-compose.yml up -d",
+    "db:seed-dev": "curl -X GET http://127.0.0.1:3000/_nitro/tasks/_seed"
   },
   "dependencies": {
     "@nuxt/ui": "^3.2.0",
+    "mongoose": "^8.16.1",
     "nuxt": "^3.17.6",
     "vue": "^3.5.17",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "zod": "^3.25.67",
+    "csv-parse": "^5.5.4"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
