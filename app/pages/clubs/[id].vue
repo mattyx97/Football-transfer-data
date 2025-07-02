@@ -1,18 +1,18 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+  <div class="min-h-screen bg-gradient-to-br from-emerald-950 to-slate-900">
     <!-- Loading State -->
     <div v-if="pending" class="space-y-6 p-6">
-      <div class="bg-white rounded-2xl shadow-lg p-8 animate-pulse">
+      <div class="bg-emerald-950/40 backdrop-blur-sm rounded-2xl border border-emerald-500/20 p-8 animate-pulse shadow-xl shadow-emerald-900/20">
         <div class="flex items-center space-x-6">
-          <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl"></div>
+          <div class="w-24 h-24 bg-gradient-to-br from-emerald-500 to-lime-400 rounded-xl"></div>
           <div class="flex-1 space-y-4">
-            <div class="h-8 bg-gray-300 rounded-lg w-1/3"></div>
-            <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+            <div class="h-8 bg-emerald-500/20 rounded-lg w-1/3"></div>
+            <div class="h-4 bg-emerald-500/20 rounded w-1/2"></div>
             <div class="grid grid-cols-4 gap-4">
-              <div class="h-16 bg-gray-300 rounded-lg"></div>
-              <div class="h-16 bg-gray-300 rounded-lg"></div>
-              <div class="h-16 bg-gray-300 rounded-lg"></div>
-              <div class="h-16 bg-gray-300 rounded-lg"></div>
+              <div class="h-16 bg-emerald-500/20 rounded-lg"></div>
+              <div class="h-16 bg-emerald-500/20 rounded-lg"></div>
+              <div class="h-16 bg-emerald-500/20 rounded-lg"></div>
+              <div class="h-16 bg-emerald-500/20 rounded-lg"></div>
             </div>
           </div>
         </div>
@@ -21,34 +21,34 @@
 
     <!-- Error State -->
     <div v-else-if="error" class="p-6">
-             <UAlert
-         icon="i-heroicons-exclamation-triangle"
-         color="error"
-         variant="soft"
-         title="Errore nel caricamento"
-         :description="error.data?.message || 'Errore sconosciuto'"
-       />
+      <UAlert
+        icon="i-heroicons-exclamation-triangle"
+        color="red"
+        variant="soft"
+        title="Errore nel caricamento"
+        :description="error.data?.message || 'Errore sconosciuto'"
+      />
     </div>
 
     <!-- Main Content -->
     <div v-else-if="clubData" class="space-y-8 p-6">
       <!-- Hero Section -->
-      <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
+      <div class="bg-emerald-950/40 backdrop-blur-sm rounded-2xl border border-emerald-500/20 shadow-xl shadow-emerald-900/20 overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-600/80 to-lime-500/80 p-8">
           <div class="flex items-center space-x-6">
-            <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+            <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30 shadow-lg">
               <img :src="clubData?.imageUrl" alt="Club Logo" class="w-full h-full object-contain" />
             </div>
             <div class="flex-1">
-              <h1 class="text-4xl font-bold mb-2">{{ clubData.club.name }}</h1>
-              <div class="flex items-center space-x-4 text-blue-100 mb-4">
+              <h1 class="text-4xl font-bold text-white mb-2">{{ clubData.club.name }}</h1>
+              <div class="flex items-center space-x-4 text-emerald-100 mb-4">
                 <UIcon name="i-heroicons-building-office" class="w-4 h-4" />
                 <span>{{ clubData.club.domesticCompetition }}</span>
                 <span v-if="clubData.club.stadium">•</span>
                 <UIcon v-if="clubData.club.stadium" name="i-heroicons-map-pin" class="w-4 h-4" />
                 <span v-if="clubData.club.stadium">{{ clubData.club.stadium }}</span>
               </div>
-              <div v-if="clubData.club.stadiumCapacity" class="text-blue-100">
+              <div v-if="clubData.club.stadiumCapacity" class="text-emerald-100">
                 <UIcon name="i-heroicons-users" class="w-4 h-4 inline mr-2" />
                 Capacità: {{ clubData.club.stadiumCapacity?.toLocaleString('it-IT') }} posti
               </div>
@@ -59,50 +59,50 @@
         <!-- Stats Cards -->
         <div class="p-8">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
+            <div class="bg-gradient-to-br from-emerald-950/50 to-lime-950/50 p-6 rounded-xl border border-emerald-500/30 shadow-lg">
               <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-lime-400 rounded-lg flex items-center justify-center shadow-lg">
                   <UIcon name="i-heroicons-currency-euro" class="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p class="text-sm text-green-600 font-medium">Valore Totale</p>
-                  <p class="text-2xl font-bold text-green-700">{{ clubData.stats.totalValue }}</p>
+                  <p class="text-sm text-emerald-300 font-medium">Valore Totale</p>
+                  <p class="text-2xl font-bold text-white">{{ clubData.stats.totalValue }}</p>
                 </div>
               </div>
             </div>
             
-            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+            <div class="bg-gradient-to-br from-emerald-950/50 to-lime-950/50 p-6 rounded-xl border border-emerald-500/30 shadow-lg">
               <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-lime-400 rounded-lg flex items-center justify-center shadow-lg">
                   <UIcon name="i-heroicons-user-group" class="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p class="text-sm text-blue-600 font-medium">Giocatori</p>
-                  <p class="text-2xl font-bold text-blue-700">{{ clubData.stats.totalPlayers }}</p>
+                  <p class="text-sm text-emerald-300 font-medium">Giocatori</p>
+                  <p class="text-2xl font-bold text-white">{{ clubData.stats.totalPlayers }}</p>
                 </div>
               </div>
             </div>
             
-            <div class="bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-xl border border-orange-200">
+            <div class="bg-gradient-to-br from-emerald-950/50 to-lime-950/50 p-6 rounded-xl border border-emerald-500/30 shadow-lg">
               <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-lime-400 rounded-lg flex items-center justify-center shadow-lg">
                   <UIcon name="i-heroicons-clock" class="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p class="text-sm text-orange-600 font-medium">Età Media</p>
-                  <p class="text-2xl font-bold text-orange-700">{{ clubData.stats.averageAge }} anni</p>
+                  <p class="text-sm text-emerald-300 font-medium">Età Media</p>
+                  <p class="text-2xl font-bold text-white">{{ clubData.stats.averageAge }} anni</p>
                 </div>
               </div>
             </div>
             
-            <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl border border-purple-200">
+            <div class="bg-gradient-to-br from-emerald-950/50 to-lime-950/50 p-6 rounded-xl border border-emerald-500/30 shadow-lg">
               <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-lime-400 rounded-lg flex items-center justify-center shadow-lg">
                   <UIcon name="i-heroicons-globe-alt" class="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p class="text-sm text-purple-600 font-medium">Stranieri</p>
-                  <p class="text-2xl font-bold text-purple-700">{{ clubData.stats.foreigners }} ({{ clubData.stats.foreignersPercentage }}%)</p>
+                  <p class="text-sm text-emerald-300 font-medium">Stranieri</p>
+                  <p class="text-2xl font-bold text-white">{{ clubData.stats.foreigners }} ({{ clubData.stats.foreignersPercentage }}%)</p>
                 </div>
               </div>
             </div>
@@ -111,85 +111,90 @@
       </div>
 
       <!-- Filters -->
-      <UCard class="shadow-lg">
-        <template #header>
-          <div class="flex items-center space-x-2">
-            <UIcon name="i-heroicons-funnel" class="w-5 h-5" />
-            <h3 class="text-lg font-semibold">Filtri e Ordinamento</h3>
+      <div class="bg-emerald-950/40 backdrop-blur-sm rounded-2xl border border-emerald-500/20 shadow-xl shadow-emerald-900/20 p-6">
+        <div class="flex items-center space-x-2 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-emerald-500 to-lime-400 flex items-center justify-center shadow-lg">
+            <UIcon name="i-heroicons-funnel" class="w-4 h-4 text-white" />
           </div>
-        </template>
+          <h3 class="text-lg font-semibold text-white">Filtri e Ordinamento</h3>
+        </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <UFormGroup label="Posizione">
+          <UFormGroup label="Posizione" class="text-emerald-300">
             <USelect 
               v-model="selectedPosition" 
               :options="positionOptions"
               placeholder="Tutte le posizioni"
               @change="fetchPlayers"
+              class="bg-emerald-950/50 border-emerald-500/30"
             />
           </UFormGroup>
           
-          <UFormGroup label="Ordina per">
+          <UFormGroup label="Ordina per" class="text-emerald-300">
             <USelect 
               v-model="sortBy" 
               :options="sortOptions"
               @change="fetchPlayers"
+              class="bg-emerald-950/50 border-emerald-500/30"
             />
           </UFormGroup>
           
-          <UFormGroup label="Ordine">
+          <UFormGroup label="Ordine" class="text-emerald-300">
             <USelect 
               v-model="sortOrder" 
               :options="orderOptions"
               @change="fetchPlayers"
+              class="bg-emerald-950/50 border-emerald-500/30"
             />
           </UFormGroup>
         </div>
-      </UCard>
+      </div>
 
       <!-- Players Grid -->
-      <UCard class="shadow-lg">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <UIcon name="i-heroicons-users" class="w-5 h-5" />
-              <h3 class="text-lg font-semibold">Rosa Completa</h3>
-                             <UBadge v-if="displayedPlayers.length" color="info" variant="soft">
-                 {{ displayedPlayers.length }} giocatori
-               </UBadge>
-             </div>
-             <UButton
-               v-if="viewMode === 'grid'"
-               @click="viewMode = 'list'"
-               icon="i-heroicons-list-bullet"
-               color="neutral"
-               variant="ghost"
-               size="sm"
-             >
-               Vista Lista
-             </UButton>
-             <UButton
-               v-else
-               @click="viewMode = 'grid'"
-               icon="i-heroicons-squares-2x2"
-               color="neutral"
-               variant="ghost"
-               size="sm"
-             >
-               Vista Griglia
-             </UButton>
+      <div class="bg-emerald-950/40 backdrop-blur-sm rounded-2xl border border-emerald-500/20 shadow-xl shadow-emerald-900/20 p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-emerald-500 to-lime-400 flex items-center justify-center shadow-lg">
+              <UIcon name="i-heroicons-users" class="w-4 h-4 text-white" />
+            </div>
+            <h3 class="text-lg font-semibold text-white">Rosa Completa</h3>
+            <UBadge v-if="displayedPlayers.length" color="emerald" variant="soft" class="bg-emerald-500/20 text-emerald-300">
+              {{ displayedPlayers.length }} giocatori
+            </UBadge>
           </div>
-        </template>
+          <UButton
+            v-if="viewMode === 'grid'"
+            @click="viewMode = 'list'"
+            icon="i-heroicons-list-bullet"
+            color="white"
+            variant="ghost"
+            size="sm"
+            class="text-emerald-300 hover:text-emerald-200"
+          >
+            Vista Lista
+          </UButton>
+          <UButton
+            v-else
+            @click="viewMode = 'grid'"
+            icon="i-heroicons-squares-2x2"
+            color="white"
+            variant="ghost"
+            size="sm"
+            class="text-emerald-300 hover:text-emerald-200"
+          >
+            Vista Griglia
+          </UButton>
+        </div>
 
         <!-- Loading -->
         <div v-if="playersLoading" class="space-y-4">
-          <div v-for="i in 6" :key="i" class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl animate-pulse">
-            <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
+          <div v-for="i in 6" :key="i" class="flex items-center space-x-4 p-4 bg-emerald-950/30 rounded-xl animate-pulse">
+            <div class="w-16 h-16 bg-emerald-500/20 rounded-full"></div>
             <div class="flex-1 space-y-2">
-              <div class="h-4 bg-gray-300 rounded w-1/3"></div>
-              <div class="h-3 bg-gray-300 rounded w-1/2"></div>
+              <div class="h-4 bg-emerald-500/20 rounded w-1/3"></div>
+              <div class="h-3 bg-emerald-500/20 rounded w-1/2"></div>
             </div>
-            <div class="h-6 bg-gray-300 rounded w-20"></div>
+            <div class="h-6 bg-emerald-500/20 rounded w-20"></div>
           </div>
         </div>
 
@@ -198,26 +203,26 @@
           <div 
             v-for="player in displayedPlayers" 
             :key="player.id"
-            class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
+            class="bg-gradient-to-br from-emerald-950/50 to-lime-950/50 p-6 rounded-xl border border-emerald-500/30 hover:border-emerald-400/60 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105"
             @click="navigateToPlayer(player.id)"
           >
             <div class="text-center">
               <img 
                 :src="player.photo" 
                 :alt="player.name"
-                class="w-20 h-20 object-cover rounded-full mx-auto mb-4 border-4 border-white shadow-lg"
+                class="w-20 h-20 object-cover rounded-full mx-auto mb-4 border-4 border-emerald-500/30 shadow-lg"
                 @error="handleImageError"
               />
-              <h4 class="font-bold text-gray-900 mb-2 text-lg">{{ player.name }}</h4>
+              <h4 class="font-bold text-white mb-2 text-lg">{{ player.name }}</h4>
               <div class="flex items-center justify-center space-x-2 mb-3">
                 <span class="text-2xl">{{ player.nationality }}</span>
-                <UBadge :color="getPositionColor(player.position)" variant="soft">
+                <UBadge :color="getPositionColor(player.position)" variant="soft" class="bg-emerald-500/20 text-emerald-300">
                   {{ player.position }}
                 </UBadge>
               </div>
-              <div class="space-y-2 text-sm text-gray-600">
+              <div class="space-y-2 text-sm text-emerald-300/80">
                 <p>{{ player.age }} anni • {{ player.height }}</p>
-                <p class="font-semibold text-green-600 text-lg">{{ player.marketValue }}</p>
+                <p class="font-semibold text-emerald-400 text-lg">{{ player.marketValue }}</p>
                 <p v-if="player.contractExpiration" class="text-xs">
                   Contratto: {{ player.contractExpiration }}
                 </p>
@@ -231,28 +236,28 @@
           <div 
             v-for="player in displayedPlayers" 
             :key="player.id"
-            class="flex items-center space-x-4 p-4 bg-gradient-to-r from-white to-gray-50 rounded-xl border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer"
+            class="flex items-center space-x-4 p-4 bg-gradient-to-br from-emerald-950/50 to-lime-950/50 rounded-xl border border-emerald-500/30 hover:border-emerald-400/60 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer"
             @click="navigateToPlayer(player.id)"
           >
             <img 
               :src="player.photo" 
               :alt="player.name"
-              class="w-16 h-16 object-cover rounded-full border-2 border-white shadow-md"
+              class="w-16 h-16 object-cover rounded-full border-2 border-emerald-500/30 shadow-lg"
               @error="handleImageError"
             />
             <div class="flex-1">
               <div class="flex items-center space-x-3 mb-2">
-                <h4 class="font-bold text-gray-900 text-lg">{{ player.name }}</h4>
+                <h4 class="font-bold text-white text-lg">{{ player.name }}</h4>
                 <span class="text-xl">{{ player.nationality }}</span>
-                <UBadge :color="getPositionColor(player.position)" variant="soft">
+                <UBadge :color="getPositionColor(player.position)" variant="soft" class="bg-emerald-500/20 text-emerald-300">
                   {{ player.position }}
                 </UBadge>
               </div>
-              <p class="text-gray-600">{{ player.age }} anni • {{ player.height }}</p>
+              <p class="text-emerald-300/80">{{ player.age }} anni • {{ player.height }}</p>
             </div>
             <div class="text-right">
-              <p class="font-bold text-green-600 text-xl">{{ player.marketValue }}</p>
-              <p v-if="player.contractExpiration" class="text-xs text-gray-500">
+              <p class="font-bold text-emerald-400 text-xl">{{ player.marketValue }}</p>
+              <p v-if="player.contractExpiration" class="text-xs text-emerald-300/60">
                 Contratto: {{ player.contractExpiration }}
               </p>
             </div>
@@ -261,11 +266,11 @@
 
         <!-- Empty State -->
         <div v-else class="text-center py-12">
-          <UIcon name="i-heroicons-user-group" class="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Nessun giocatore trovato</h3>
-          <p class="text-gray-600">Prova a modificare i filtri di ricerca</p>
+          <UIcon name="i-heroicons-user-group" class="w-16 h-16 text-emerald-400 mx-auto mb-4" />
+          <h3 class="text-lg font-semibold text-white mb-2">Nessun giocatore trovato</h3>
+          <p class="text-emerald-300/80">Prova a modificare i filtri di ricerca</p>
         </div>
-      </UCard>
+      </div>
     </div>
   </div>
 </template>
