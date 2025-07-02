@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const nuxtApp = useNuxtApp()
+
 // Dati mock per la demo con foto e loghi
 const stats = [
   {
@@ -8,7 +10,8 @@ const stats = [
     icon: 'i-heroicons-user-group',
     color: 'text-emerald-400',
     bgColor: 'bg-emerald-500/20',
-    borderColor: 'border-emerald-500/30'
+    borderColor: 'border-emerald-500/30',
+    details: 'Analisi completa su 150+ campionati'
   },
   {
     title: 'Club Monitorati',
@@ -17,7 +20,8 @@ const stats = [
     icon: 'i-heroicons-building-office',
     color: 'text-amber-400',
     bgColor: 'bg-amber-500/20',
-    borderColor: 'border-amber-500/30'
+    borderColor: 'border-amber-500/30',
+    details: 'Copertura globale in tempo reale'
   },
   {
     title: 'Trasferimenti Tracciati',
@@ -26,7 +30,8 @@ const stats = [
     icon: 'i-heroicons-arrow-path',
     color: 'text-lime-400',
     bgColor: 'bg-lime-500/20',
-    borderColor: 'border-lime-500/30'
+    borderColor: 'border-lime-500/30',
+    details: 'Ultimi 5 anni di mercato'
   },
   {
     title: 'Valore Totale Analizzato',
@@ -35,7 +40,8 @@ const stats = [
     icon: 'i-heroicons-currency-euro',
     color: 'text-yellow-400',
     bgColor: 'bg-yellow-500/20',
-    borderColor: 'border-yellow-500/30'
+    borderColor: 'border-yellow-500/30',
+    details: 'Valutazioni basate su AI'
   }
 ]
 
@@ -133,6 +139,63 @@ const recentTransfers = [
   }
 ]
 
+// Aggiungo nuovi dati per le statistiche di mercato
+const marketTrends = {
+  topLeagues: [
+    { name: 'Premier League', value: '€1.2B', change: '+18%', color: 'from-purple-500 to-indigo-500' },
+    { name: 'La Liga', value: '€750M', change: '+12%', color: 'from-orange-500 to-red-500' },
+    { name: 'Serie A', value: '€680M', change: '+15%', color: 'from-blue-500 to-cyan-500' },
+    { name: 'Bundesliga', value: '€620M', change: '+10%', color: 'from-emerald-500 to-teal-500' },
+    { name: 'Ligue 1', value: '€450M', change: '+8%', color: 'from-pink-500 to-rose-500' }
+  ],
+  positionTrends: [
+    { position: 'Attaccanti', percentage: 35, value: '€850M', trend: 'up' },
+    { position: 'Centrocampisti', percentage: 30, value: '€720M', trend: 'up' },
+    { position: 'Difensori', percentage: 25, value: '€580M', trend: 'stable' },
+    { position: 'Portieri', percentage: 10, value: '€250M', trend: 'down' }
+  ],
+  ageGroups: [
+    { range: '18-21', percentage: 25, value: '€580M', trend: 'up' },
+    { range: '22-25', percentage: 35, value: '€820M', trend: 'up' },
+    { range: '26-29', percentage: 28, value: '€650M', trend: 'stable' },
+    { range: '30+', percentage: 12, value: '€350M', trend: 'down' }
+  ]
+}
+
+// Aggiungo dati per l'analisi AI avanzata
+const aiInsights = [
+  {
+    title: 'Predizioni di Valore',
+    icon: 'i-heroicons-chart-bar-square',
+    color: 'emerald',
+    insights: [
+      'Crescita prevista del 25% per giovani talenti U21',
+      'Mercato dei centrocampisti in forte espansione',
+      'Trend positivo per giocatori sudamericani'
+    ]
+  },
+  {
+    title: 'Pattern Recognition',
+    icon: 'i-heroicons-light-bulb',
+    color: 'amber',
+    insights: [
+      'Aumento degli scambi tra club della stessa lega',
+      'Preferenza per contratti più brevi',
+      'Crescita degli investimenti in settori giovanili'
+    ]
+  },
+  {
+    title: 'Raccomandazioni',
+    icon: 'i-heroicons-sparkles',
+    color: 'lime',
+    insights: [
+      'Focus su talenti emergenti dal Sud America',
+      'Opportunità nel mercato dei terzini',
+      'Momento ottimale per investimenti in Serie A'
+    ]
+  }
+]
+
 // Funzione per gestire errori di caricamento immagini
 const handleImageError = (event: Event) => {
   const target = event.target as HTMLImageElement
@@ -205,14 +268,6 @@ const handleImageError = (event: Event) => {
                   variant="outline" 
                   class="justify-start bg-emerald-950/30 hover:bg-emerald-950/50 border-emerald-500/30 text-emerald-100 hover:border-emerald-400/50 shadow-lg shadow-emerald-900/20"
                 >
-                  <UIcon name="i-heroicons-magnifying-glass" class="w-5 h-5 mr-2" />
-                  Ricerca AI
-                </UButton>
-                <UButton 
-                  size="lg" 
-                  variant="outline" 
-                  class="justify-start bg-emerald-950/30 hover:bg-emerald-950/50 border-emerald-500/30 text-emerald-100 hover:border-emerald-400/50 shadow-lg shadow-emerald-900/20"
-                >
                   <UIcon name="i-heroicons-document-chart-bar" class="w-5 h-5 mr-2" />
                   Report
                 </UButton>
@@ -251,9 +306,131 @@ const handleImageError = (event: Event) => {
               <UIcon name="i-heroicons-arrow-trending-up" class="w-3 h-3 mr-1" />
               {{ stat.change }}
             </p>
+            <p class="text-emerald-300/60 text-xs mt-2">{{ stat.details }}</p>
           </div>
           <div :class="[stat.bgColor, stat.borderColor]" class="w-12 h-12 rounded-xl border flex items-center justify-center shadow-lg">
             <UIcon :name="stat.icon" :class="stat.color" class="w-6 h-6" />
+          </div>
+        </div>
+      </UCard>
+    </div>
+
+    <!-- Market Trends Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Top Leagues -->
+      <UCard class="bg-emerald-950/40 backdrop-blur-sm border-emerald-500/20 shadow-xl shadow-emerald-900/20">
+        <template #header>
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-purple-500/40">
+              <UIcon name="i-heroicons-trophy" class="w-4 h-4 text-white" />
+            </div>
+            <h3 class="text-lg font-semibold text-white">Top Leagues</h3>
+          </div>
+        </template>
+
+        <div class="space-y-4">
+          <div 
+            v-for="league in marketTrends.topLeagues" 
+            :key="league.name"
+            class="p-4 bg-emerald-950/30 rounded-xl border border-emerald-500/20 hover:border-emerald-400/40 transition-all duration-300"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-white font-medium">{{ league.name }}</span>
+              <span class="text-emerald-400 font-semibold">{{ league.value }}</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-emerald-950/50 overflow-hidden">
+              <div 
+                class="h-full rounded-full bg-gradient-to-r transition-all duration-500"
+                :class="league.color"
+                :style="{ width: league.change.replace('+', '') }"
+              ></div>
+            </div>
+            <p class="text-xs text-emerald-300/70 mt-2 flex items-center">
+              <UIcon name="i-heroicons-arrow-trending-up" class="w-3 h-3 mr-1" />
+              {{ league.change }} rispetto all'anno precedente
+            </p>
+          </div>
+        </div>
+      </UCard>
+
+      <!-- Position Trends -->
+      <UCard class="bg-emerald-950/40 backdrop-blur-sm border-emerald-500/20 shadow-xl shadow-emerald-900/20">
+        <template #header>
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/40">
+              <UIcon name="i-heroicons-user-group" class="w-4 h-4 text-white" />
+            </div>
+            <h3 class="text-lg font-semibold text-white">Trend per Ruolo</h3>
+          </div>
+        </template>
+
+        <div class="space-y-4">
+          <div 
+            v-for="position in marketTrends.positionTrends" 
+            :key="position.position"
+            class="p-4 bg-emerald-950/30 rounded-xl border border-emerald-500/20"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <span class="text-white font-medium">{{ position.position }}</span>
+                <span class="text-xs text-emerald-300/70 ml-2">({{ position.percentage }}%)</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <UIcon 
+                  :name="position.trend === 'up' ? 'i-heroicons-arrow-trending-up' : position.trend === 'down' ? 'i-heroicons-arrow-trending-down' : 'i-heroicons-minus'" 
+                  class="w-4 h-4"
+                  :class="position.trend === 'up' ? 'text-emerald-400' : position.trend === 'down' ? 'text-red-400' : 'text-yellow-400'"
+                />
+                <span class="text-emerald-400 font-semibold">{{ position.value }}</span>
+              </div>
+            </div>
+            <div class="w-full h-2 rounded-full bg-emerald-950/50 overflow-hidden">
+              <div 
+                class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500"
+                :style="{ width: position.percentage + '%' }"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </UCard>
+
+      <!-- Age Distribution -->
+      <UCard class="bg-emerald-950/40 backdrop-blur-sm border-emerald-500/20 shadow-xl shadow-emerald-900/20">
+        <template #header>
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/40">
+              <UIcon name="i-heroicons-chart-pie" class="w-4 h-4 text-white" />
+            </div>
+            <h3 class="text-lg font-semibold text-white">Distribuzione per Età</h3>
+          </div>
+        </template>
+
+        <div class="space-y-4">
+          <div 
+            v-for="age in marketTrends.ageGroups" 
+            :key="age.range"
+            class="p-4 bg-emerald-950/30 rounded-xl border border-emerald-500/20"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <span class="text-white font-medium">{{ age.range }} anni</span>
+                <span class="text-xs text-emerald-300/70 ml-2">({{ age.percentage }}%)</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <UIcon 
+                  :name="age.trend === 'up' ? 'i-heroicons-arrow-trending-up' : age.trend === 'down' ? 'i-heroicons-arrow-trending-down' : 'i-heroicons-minus'" 
+                  class="w-4 h-4"
+                  :class="age.trend === 'up' ? 'text-emerald-400' : age.trend === 'down' ? 'text-red-400' : 'text-yellow-400'"
+                />
+                <span class="text-emerald-400 font-semibold">{{ age.value }}</span>
+              </div>
+            </div>
+            <div class="w-full h-2 rounded-full bg-emerald-950/50 overflow-hidden">
+              <div 
+                class="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500"
+                :style="{ width: age.percentage + '%' }"
+              ></div>
+            </div>
           </div>
         </div>
       </UCard>
@@ -412,42 +589,71 @@ const handleImageError = (event: Event) => {
     <!-- AI Analysis Section -->
     <UCard class="bg-gradient-to-r from-emerald-950/80 via-slate-900/60 to-emerald-950/80 backdrop-blur-sm border border-emerald-500/30 shadow-2xl shadow-emerald-900/30">
       <template #header>
-        <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-emerald-500 to-lime-400 flex items-center justify-center animate-pulse shadow-lg shadow-emerald-500/50">
-            <UIcon name="i-heroicons-cpu-chip" class="w-4 h-4 text-white" />
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-emerald-500 to-lime-400 flex items-center justify-center animate-pulse shadow-lg shadow-emerald-500/50">
+              <UIcon name="i-heroicons-cpu-chip" class="w-4 h-4 text-white" />
+            </div>
+            <h3 class="text-lg font-semibold text-white">Analisi AI Avanzata</h3>
+            <UBadge variant="outline" class="bg-emerald-500/30 text-emerald-300 border-emerald-400/50 shadow-lg shadow-emerald-900/20">
+              BETA
+            </UBadge>
           </div>
-          <h3 class="text-lg font-semibold text-white">Analisi AI Avanzata</h3>
-          <UBadge variant="outline" class="bg-emerald-500/30 text-emerald-300 border-emerald-400/50 shadow-lg shadow-emerald-900/20">
-            BETA
-          </UBadge>
+          <UButton 
+            variant="outline" 
+            size="sm"
+            class="bg-emerald-950/30 hover:bg-emerald-950/50 border-emerald-500/30 text-emerald-100 hover:border-emerald-400/50"
+          >
+            <UIcon name="i-heroicons-sparkles" class="w-4 h-4 mr-2" />
+            Genera Report
+          </UButton>
         </div>
       </template>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="text-center p-6 bg-emerald-950/30 rounded-xl border border-emerald-500/20 shadow-lg shadow-emerald-900/20">
-          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-emerald-500/30 to-lime-400/30 flex items-center justify-center border border-emerald-400/30 shadow-lg shadow-emerald-500/20">
-            <UIcon name="i-heroicons-chart-bar-square" class="w-8 h-8 text-emerald-400" />
+        <div 
+          v-for="insight in aiInsights"
+          :key="insight.title"
+          class="p-6 bg-emerald-950/30 rounded-xl border border-emerald-500/20 shadow-lg shadow-emerald-900/20"
+        >
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r flex items-center justify-center border shadow-lg"
+            :class="{
+              'from-emerald-500/30 to-lime-400/30 border-emerald-400/30 shadow-emerald-500/20': insight.color === 'emerald',
+              'from-amber-500/30 to-yellow-400/30 border-amber-400/30 shadow-amber-500/20': insight.color === 'amber',
+              'from-lime-500/30 to-green-400/30 border-lime-400/30 shadow-lime-500/20': insight.color === 'lime'
+            }"
+          >
+            <UIcon :name="insight.icon" class="w-8 h-8"
+              :class="{
+                'text-emerald-400': insight.color === 'emerald',
+                'text-amber-400': insight.color === 'amber',
+                'text-lime-400': insight.color === 'lime'
+              }"
+            />
           </div>
-          <h4 class="text-white font-semibold mb-2">Predizioni di Valore</h4>
-          <p class="text-emerald-300/80 text-sm">Algoritmi ML per prevedere l'andamento del valore dei giocatori</p>
-        </div>
-
-        <div class="text-center p-6 bg-emerald-950/30 rounded-xl border border-emerald-500/20 shadow-lg shadow-emerald-900/20">
-          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-amber-500/30 to-yellow-400/30 flex items-center justify-center border border-amber-400/30 shadow-lg shadow-amber-500/20">
-            <UIcon name="i-heroicons-light-bulb" class="w-8 h-8 text-amber-400" />
-          </div>
-          <h4 class="text-white font-semibold mb-2">Insights Intelligenti</h4>
-          <p class="text-emerald-300/80 text-sm">Analisi comportamentali e pattern recognition sui trasferimenti</p>
-        </div>
-
-        <div class="text-center p-6 bg-emerald-950/30 rounded-xl border border-emerald-500/20 shadow-lg shadow-emerald-900/20">
-          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-lime-500/30 to-green-400/30 flex items-center justify-center border border-lime-400/30 shadow-lg shadow-lime-500/20">
-            <UIcon name="i-heroicons-sparkles" class="w-8 h-8 text-lime-400" />
-          </div>
-          <h4 class="text-white font-semibold mb-2">Raccomandazioni</h4>
-          <p class="text-emerald-300/80 text-sm">Suggerimenti personalizzati basati su AI per investimenti ottimali</p>
+          <h4 class="text-white font-semibold mb-4 text-center">{{ insight.title }}</h4>
+          <ul class="space-y-3">
+            <li 
+              v-for="(item, index) in insight.insights"
+              :key="index"
+              class="flex items-start space-x-2"
+            >
+              <UIcon 
+                name="i-heroicons-check-circle" 
+                class="w-5 h-5 mt-0.5 flex-shrink-0"
+                :class="{
+                  'text-emerald-400': insight.color === 'emerald',
+                  'text-amber-400': insight.color === 'amber',
+                  'text-lime-400': insight.color === 'lime'
+                }"
+              />
+              <span class="text-emerald-300/80 text-sm">{{ item }}</span>
+            </li>
+          </ul>
         </div>
       </div>
     </UCard>
+
+   
   </div>
 </template>

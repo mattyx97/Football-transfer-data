@@ -4,10 +4,6 @@ const isAIDialogOpen = ref(false)
 const openAIDialog = () => {
   isAIDialogOpen.value = true
 }
-
-const closeAIDialog = () => {
-  isAIDialogOpen.value = false
-}
 </script>
 
 <template>
@@ -99,10 +95,9 @@ const closeAIDialog = () => {
     </div>
 
     <!-- AI Assistant Dialog -->
-    <AIAssistantDialog 
-      :is-open="isAIDialogOpen" 
-      @close="closeAIDialog" 
-    />
+    <UModal v-model="isAIDialogOpen">
+      <AIAssistantDialog />
+    </UModal>
   </div>
 </template>
 
