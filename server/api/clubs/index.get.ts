@@ -1,4 +1,4 @@
-import { PlayerModel } from "../../lib/db/schema"
+import { ClubModel } from "../../lib/db/schema"
 import { z } from "zod"
 
 const PAGE_SIZE = 20
@@ -14,17 +14,16 @@ export default defineZodEventHandler({
     const { page, search } = query
     const filter: Record<string, any> = {}
     if (search) {
-      // Case-insensitive partial match on name, first_name, or last_name
+      // Case-insensitive partial match on name or club_code
       filter.$or = [
         { name: { $regex: search, $options: "i" } },
-        { first_name: { $regex: search, $options: "i" } },
-        { last_name: { $regex: search, $options: "i" } },
+        { club_code: { $regex: search, $options: "i" } },
       ]
     }
     const skip = (page - 1) * PAGE_SIZE
     const [total, data] = await Promise.all([
-      PlayerModel.countDocuments(filter),
-      PlayerModel.find(filter).skip(skip).limit(PAGE_SIZE),
+      ClubModel.countDocuments(filter),
+      ClubModel.find(filter).skip(skip).limit(PAGE_SIZE),
     ])
     return {
       data,
