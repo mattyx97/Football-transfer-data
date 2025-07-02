@@ -1,0 +1,83 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Clean Code API Rule for /server/api
+
+## Overview
+This rule defines the conventions and best practices for creating clean, maintainable API endpoints in the `/server/api` directory.
+
+## General Guidelines
+- Use one file per endpoint, following Nuxt/Nitro conventions (e.g., `index.get.ts` for list, `[id].get.ts` for detail).
+- Use `defineZodEventHandler` for all endpoints to enforce input validation and type safety.
+- Inline Zod schemas directly in the `input` property (do not create separate variables for schemas unless reused).
+- Use destructured handler arguments: `async handler(event, { input })` or `async handler(event, { input: { params, query } })`.
+- Always validate route params and query parameters with Zod.
+- For list endpoints, implement pagination with `page` and `pageSize` query parameters, using sensible defaults (e.g., 1 and 20).
+- Return a `pagination` object alongside the data for lists.
+- Use clear, consistent error handling. For not found, return a 400 or 404 error using a helper (e.g., `createBadRequestError()`).
+- Keep endpoint logic concise and focused on request/response handling. Move business logic to the appropriate backend library/module.
+
+## Example: Paginated List Endpoint
+```ts
+import { Model } from '../../lib/db/schema'
+import { z } from 'zod'
+
+export default defineZodEventHandler({
+  input: {
+    query: z.object({
+      page: z.coerce.number().optional().default(1),
+      pageSize: z.coerce.number().optional().default(20),
+    }),
+  },
+  async handler(event, { input: { query } }) {
+    const skip = (query.page - 1) * query.pageSize
+    const [total, data] = await Promise.all([
+      Model.countDocuments(),
+      Model.find().skip(skip).limit(query.pageSize),
+    ])
+    return {
+      data,
+      pagination: {
+        total,
+        page: query.page,
+        pageSize: query.pageSize,
+      },
+    }
+  },
+})
+```
+
+## Example: Detail Endpoint
+```ts
+import { Model } from '../../lib/db/schema'
+import { z } from 'zod'
+
+export default defineZodEventHandler({
+  input: {
+    params: z.object({
+      id: z.coerce.number(),
+    }),
+  },
+  async handler(event, { input: { params } }) {
+    const item = await Model.findOne({ id: params.id })
+    if (!item) {
+      return createBadRequestError()
+    }
+    return item
+  },
+})
+```
+
+## File Naming
+- Use `index.get.ts` for collection/list endpoints.
+- Use `[id].get.ts` for detail endpoints.
+- Use HTTP method suffixes (`.get.ts`, `.post.ts`, etc.) for clarity and convention.
+
+## References
+- [Nuxt Server Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/server)
+- [Nuxt API Directory Guide](mdc:https:/nuxt.com/docs/guide/directory-structure/api)
+
+
+
