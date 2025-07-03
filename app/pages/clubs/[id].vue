@@ -366,7 +366,7 @@ const handleImageError = (event: Event) => {
 }
 
 const navigateToPlayer = (playerId: number) => {
-  router.push(`/player/${playerId}`)
+  router.push(`/players/${playerId}`)
 }
 
 // Fetch dei giocatori con filtri
