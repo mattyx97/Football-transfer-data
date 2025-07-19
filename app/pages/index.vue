@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const nuxtApp = useNuxtApp()
+const showAIChat = ref(false)
 
 // Fetch dati reali dalle API
 const [statsData, marketData, topPlayersData, transfersData] = await Promise.all([
@@ -163,12 +164,13 @@ const handleImageError = (event: Event) => {
                   Report
                 </UButton>
                 <UButton 
+                  @click="showAIChat = true"
                   size="lg" 
                   variant="outline" 
                   class="justify-start bg-emerald-950/30 hover:bg-emerald-950/50 border-emerald-500/30 text-emerald-100 hover:border-emerald-400/50 shadow-lg shadow-emerald-900/20"
                 >
-                  <UIcon name="i-heroicons-cog-6-tooth" class="w-5 h-5 mr-2" />
-                  Configurazione
+                  <UIcon name="i-heroicons-sparkles" class="w-5 h-5 mr-2" />
+                  Chiedi all'IA
                 </UButton>
               </div>
             </div>
@@ -545,6 +547,18 @@ const handleImageError = (event: Event) => {
       </div>
     </UCard>
 
-   
+    <!-- AI Chat Dialog -->
+    <AIChatDialog 
+      v-model="showAIChat"
+      :context="{
+        currentPage: 'dashboard',
+        availableData: {
+          stats,
+          marketTrends,
+          topPlayers,
+          recentTransfers
+        }
+      }"
+    />
   </div>
 </template>

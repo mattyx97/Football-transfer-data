@@ -23,7 +23,7 @@
     <div v-else-if="error" class="p-6">
       <UAlert
         icon="i-heroicons-exclamation-triangle"
-        color="red"
+        color="error"
         variant="soft"
         title="Errore nel caricamento"
         :description="error.data?.message || 'Errore sconosciuto'"
@@ -35,24 +35,35 @@
       <!-- Hero Section -->
       <div class="bg-emerald-950/40 backdrop-blur-sm rounded-2xl border border-emerald-500/20 shadow-xl shadow-emerald-900/20 overflow-hidden">
         <div class="bg-gradient-to-r from-emerald-600/80 to-lime-500/80 p-8">
-          <div class="flex items-center space-x-6">
-            <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30 shadow-lg">
-              <img :src="clubData?.imageUrl" alt="Club Logo" class="w-full h-full object-contain" />
-            </div>
-            <div class="flex-1">
-              <h1 class="text-4xl font-bold text-white mb-2">{{ clubData.club.name }}</h1>
-              <div class="flex items-center space-x-4 text-emerald-100 mb-4">
-                <UIcon name="i-heroicons-building-office" class="w-4 h-4" />
-                <span>{{ clubData.club.domesticCompetition }}</span>
-                <span v-if="clubData.club.stadium">•</span>
-                <UIcon v-if="clubData.club.stadium" name="i-heroicons-map-pin" class="w-4 h-4" />
-                <span v-if="clubData.club.stadium">{{ clubData.club.stadium }}</span>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-6">
+              <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30 shadow-lg">
+                <img :src="clubData?.imageUrl" alt="Club Logo" class="w-full h-full object-contain" />
               </div>
-              <div v-if="clubData.club.stadiumCapacity" class="text-emerald-100">
-                <UIcon name="i-heroicons-users" class="w-4 h-4 inline mr-2" />
-                Capacità: {{ clubData.club.stadiumCapacity?.toLocaleString('it-IT') }} posti
+              <div class="flex-1">
+                <h1 class="text-4xl font-bold text-white mb-2">{{ clubData.club.name }}</h1>
+                <div class="flex items-center space-x-4 text-emerald-100 mb-4">
+                  <UIcon name="i-heroicons-building-office" class="w-4 h-4" />
+                  <span>{{ clubData.club.domesticCompetition }}</span>
+                  <span v-if="clubData.club.stadium">•</span>
+                  <UIcon v-if="clubData.club.stadium" name="i-heroicons-map-pin" class="w-4 h-4" />
+                  <span v-if="clubData.club.stadium">{{ clubData.club.stadium }}</span>
+                </div>
+                <div v-if="clubData.club.stadiumCapacity" class="text-emerald-100">
+                  <UIcon name="i-heroicons-users" class="w-4 h-4 inline mr-2" />
+                  Capacità: {{ clubData.club.stadiumCapacity?.toLocaleString('it-IT') }} posti
+                </div>
               </div>
             </div>
+            <UButton
+              @click="showAIChat = true"
+              color="neutral"
+              variant="solid"
+              icon="i-heroicons-sparkles"
+              class="bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30"
+            >
+              Chiedi all'IA
+            </UButton>
           </div>
         </div>
         
@@ -158,7 +169,7 @@
               <UIcon name="i-heroicons-users" class="w-4 h-4 text-white" />
             </div>
             <h3 class="text-lg font-semibold text-white">Rosa Completa</h3>
-            <UBadge v-if="displayedPlayers.length" color="emerald" variant="soft" class="bg-emerald-500/20 text-emerald-300">
+            <UBadge v-if="displayedPlayers.length" color="success" variant="soft" class="bg-emerald-500/20 text-emerald-300">
               {{ displayedPlayers.length }} giocatori
             </UBadge>
           </div>
@@ -166,7 +177,7 @@
             v-if="viewMode === 'grid'"
             @click="viewMode = 'list'"
             icon="i-heroicons-list-bullet"
-            color="white"
+            color="neutral"
             variant="ghost"
             size="sm"
             class="text-emerald-300 hover:text-emerald-200"
@@ -177,7 +188,7 @@
             v-else
             @click="viewMode = 'grid'"
             icon="i-heroicons-squares-2x2"
-            color="white"
+            color="neutral"
             variant="ghost"
             size="sm"
             class="text-emerald-300 hover:text-emerald-200"
@@ -272,6 +283,16 @@
         </div>
       </div>
     </div>
+
+    <!-- AI Chat Dialog -->
+    <AIChatDialog 
+      v-model="showAIChat"
+      :context="{
+        currentPage: 'club-detail',
+        clubData: clubData,
+        playersData: displayedPlayers
+      }"
+    />
   </div>
 </template>
 
@@ -300,6 +321,7 @@ const sortBy = ref('value')
 const sortOrder = ref('desc')
 const playersLoading = ref(false)
 const viewMode = ref<'grid' | 'list'>('grid')
+const showAIChat = ref(false)
 
 // Fetch dei dati del club
 const { data: clubData, pending, error } = await useLazyFetch(`/api/clubs/${clubId.value}/players`)
